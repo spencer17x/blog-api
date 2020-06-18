@@ -1,9 +1,8 @@
 import Koa from 'koa';
+import registerRouters from './routers';
 
 const app = new Koa();
 
-app.use(async ctx => {
-  ctx.body = 'Hello World';
-});
+registerRouters(app);
 
 app.listen(3000);
