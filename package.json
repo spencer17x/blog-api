@@ -1,0 +1,25 @@
+{
+  "name": "blog-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Spencer17x/blog-api.git",
+  "author": "xuzepeng <xuzepeng@ingtube.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' ./src/index.ts",
+    "start": "tsc && node dist/index.js",
+    "commit": "git add . && git-cz"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa-router": "^7.4.1",
+    "git-cz": "^4.6.2",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "koa": "^2.12.1",
+    "koa-router": "^9.0.1"
+  }
+}
