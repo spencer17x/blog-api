@@ -7,7 +7,7 @@ class UserCtrl {
 	 * @param ctx
 	 */
 	async findAllUsers(ctx: Context) {
-		const users = await UserModel.find();
+		const users = await UserModel.find().select('-password');
 		ctx.body = users;
 	}
 
@@ -18,7 +18,7 @@ class UserCtrl {
 	 */
 	async findUserById(ctx: Context) {
 		const { id } = ctx.params;
-		const user = await UserModel.findById(id).select('username password');
+		const user = await UserModel.findById(id).select('account username password');
 		ctx.body = user;
 	}
 
@@ -30,11 +30,9 @@ class UserCtrl {
 		ctx.verifyParams({
 			username: { type: 'string', required: true },
 			password: { type: 'string', required: true },
+			account: { type: 'string', required: true }
 		});
-		const { username, password, } = ctx.request.body;
-		const user = await new UserModel({
-			username, password,
-		}).save();
+		const user = await new UserModel(ctx.request.body).save();
 		ctx.body = user;
 	}
 
@@ -45,14 +43,12 @@ class UserCtrl {
 	 */
 	async updateUser(ctx: Context) {
 		ctx.verifyParams({
-			username: { type: 'string', required: true },
-			password: { type: 'string', required: true },
+			username: { type: 'string', required: false },
+			password: { type: 'string', required: false },
+			account: { type: 'string', required: false }
 		});
 		const { id } = ctx.params;
-		const { username, password } = ctx.request.body
-		const user = await UserModel.findByIdAndUpdate(id, {
-			username, password
-		});
+		const user = await UserModel.findByIdAndUpdate(id, ctx.request.body);
 		ctx.body = user;
 	}
 
