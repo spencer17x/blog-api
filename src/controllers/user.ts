@@ -5,11 +5,11 @@ import { jwtSecret } from '../config';
 
 class UserCtrl {
 	/**
-	 * 查询所有用户
+	 * 获取所有用户
 	 * @param ctx
 	 */
 	async findAllUsers(ctx: Context) {
-		const users = await UserModel.find().select('-password');
+		const users = await UserModel.find().populate('articles').select('-password');
 		ctx.body = users;
 	}
 
