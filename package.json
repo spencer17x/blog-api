@@ -21,9 +21,11 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.12.1",
     "koa-body": "^4.2.0",
     "koa-json-error": "^3.1.2",
+    "koa-jwt": "^4.0.0",
     "koa-parameter": "^3.0.1",
     "koa-router": "^9.0.1",
     "mongoose": "^5.9.19"
