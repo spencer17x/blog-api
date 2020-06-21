@@ -31,7 +31,7 @@ class CategoryCtrl {
 			name: { type: 'string', required: true }
 		});
 		const category = await new CategoriesModel(ctx.request.body).save();
-		ctx.bodt = category;
+		ctx.body = category;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class CategoryCtrl {
 	 */
 	async delCategory(ctx: Context) {
 		const category = await CategoriesModel.findByIdAndRemove(ctx.params.id);
-		ctx.bodt = category;
+		ctx.body = category;
 	}
 
 	/**
@@ -51,7 +51,7 @@ class CategoryCtrl {
 	 */
 	async updateCategory(ctx: Context) {
 		const category = await CategoriesModel.findByIdAndUpdate(ctx.params.id, ctx.request.body);
-		ctx.bodt = category;
+		ctx.body = category;
 	}
 }
 
