@@ -8,10 +8,6 @@ const UserSchema = new Schema({
 	articles: {
 		type: [{ type: Schema.Types.ObjectId, ref: 'article' }],
 		required: false
-	},
-	categories: {
-		type: [{ type: Schema.Types.ObjectId, ref: 'category' }],
-		required: false
 	}
 });
 

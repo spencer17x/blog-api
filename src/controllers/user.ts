@@ -20,7 +20,11 @@ class UserCtrl {
 	 */
 	async findUserById(ctx: Context) {
 		const { id } = ctx.params;
-		const user = await UserModel.findById(id).select('account username password');
+		const selectStr = [
+			'account', 'username', 'password',
+			'articles'
+		].join(' ');
+		const user = await UserModel.findById(id).select(selectStr).populate('articles');
 		ctx.body = user;
 	}
 

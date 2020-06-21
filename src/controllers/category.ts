@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import { CategoriesModel } from '../models';
+import { CategoryModel } from '../models';
 
 class CategoryCtrl {
 	/**
@@ -7,7 +7,7 @@ class CategoryCtrl {
 	 * @param {Application.Context} ctx
 	 */
 	async findAllCategories(ctx: Context) {
-		const categories = await CategoriesModel.find();
+		const categories = await CategoryModel.find().populate('articles');
 		ctx.body = categories;
 	}
 
@@ -17,7 +17,7 @@ class CategoryCtrl {
 	 * @returns {Promise<void>}
 	 */
 	async findCategoryById(ctx: Context) {
-		const category = await CategoriesModel.findById(ctx.params.id);
+		const category = await CategoryModel.findById(ctx.params.id);
 		ctx.body = category;
 	}
 
@@ -30,7 +30,7 @@ class CategoryCtrl {
 		ctx.verifyParams({
 			name: { type: 'string', required: true }
 		});
-		const category = await new CategoriesModel(ctx.request.body).save();
+		const category = await new CategoryModel(ctx.request.body).save();
 		ctx.body = category;
 	}
 
@@ -40,7 +40,7 @@ class CategoryCtrl {
 	 * @returns {Promise<void>}
 	 */
 	async delCategory(ctx: Context) {
-		const category = await CategoriesModel.findByIdAndRemove(ctx.params.id);
+		const category = await CategoryModel.findByIdAndRemove(ctx.params.id);
 		ctx.body = category;
 	}
 
@@ -50,7 +50,36 @@ class CategoryCtrl {
 	 * @returns {Promise<void>}
 	 */
 	async updateCategory(ctx: Context) {
-		const category = await CategoriesModel.findByIdAndUpdate(ctx.params.id, ctx.request.body);
+		const category = await CategoryModel.findByIdAndUpdate(ctx.params.id, ctx.request.body);
+		ctx.body = category;
+	}
+
+	/**
+	 * 将文章添加到对应的类目中
+	 * @param {Application.Context} ctx
+	 * @returns {Promise<void>}
+	 */
+	async addArticleToCategory(ctx: Context) {
+		const { categoryId, articleId } = ctx.params;
+		const category: any = await CategoryModel.findById(categoryId);
+		category.articles.push(articleId);
+		category.save();
+		ctx.body = category;
+	}
+
+	/**
+	 * 将文章从对应的类目中删除
+	 * @param {Application.Context} ctx
+	 * @returns {Promise<void>}
+	 */
+	async delArticleFromCategory(ctx: Context) {
+		const { categoryId, articleId } = ctx.params;
+		const category: any = await CategoryModel.findById(categoryId);
+		const index = category.articles.findIndex(id => id.toString() === articleId);
+		if (index > -1) {
+			category.articles.splice(index, 1);
+			category.save();
+		}
 		ctx.body = category;
 	}
 }

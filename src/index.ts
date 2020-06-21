@@ -9,11 +9,16 @@ import { connectionStr, PORT } from './config';
 const app = new Koa();
 const db = mongoose.connection;
 
-console.log('env: ', process.env.NODE_ENV);
+const env = process.env.NODE_ENV;
+
+console.log('env: ', env);
 
 parameter(app);
+
 app.use(KoaBody()).use(error({
-	postFormat: (e, { stack, ...rest }) => process.env.NODE_ENV === 'production' ? rest : { stack, ...rest }
+	postFormat: (e, { stack, ...rest }) => {
+		return env === 'production' ? rest : { stack, ...rest }
+	}
 }));
 
 db.on('error', console.error.bind(console, 'connection error:'));

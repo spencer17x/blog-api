@@ -11,6 +11,7 @@
     "commit": "git add . && git-cz"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/koa": "^2.11.3",
     "@types/koa-json-error": "^3.1.2",
     "@types/koa-router": "^7.4.1",

@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import { ArticleModel, UserModel } from '../models';
+import { ArticleModel, CategoryModel, UserModel } from '../models';
 
 class ArticleCtrl {
 	/**
@@ -48,7 +48,7 @@ class ArticleCtrl {
 	 */
 	async updateArticle(ctx: Context) {
 		const article = await ArticleModel.findByIdAndUpdate(ctx.params.id, ctx.request.body);
-		ctx.body = article
+		ctx.body = article;
 	}
 
 	/**
@@ -58,7 +58,20 @@ class ArticleCtrl {
 	 */
 	async delArticle(ctx: Context) {
 		const article = await ArticleModel.findByIdAndRemove(ctx.params.id);
-		ctx.body = article
+		ctx.body = article;
+	}
+
+	/**
+	 * 获取文章的类目
+	 * @param {Application.Context} ctx
+	 */
+	async findCategoryOfArticle(ctx: Context) {
+		const allCategories: any = await CategoryModel.find();
+		const categories = allCategories
+		.filter(
+			v => v.articles.map(aId => aId.toString()).includes(ctx.params.id)
+		)
+		ctx.body = categories;
 	}
 }
 
