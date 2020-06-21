@@ -66,10 +66,10 @@ class ArticleCtrl {
 	 * @param {Application.Context} ctx
 	 */
 	async findCategoryOfArticle(ctx: Context) {
-		const allCategories: any = await CategoryModel.find();
-		const categories = allCategories
+		const allCategories = await CategoryModel.find();
+		const categories: any = allCategories
 		.filter(
-			v => v.articles.map(aId => aId.toString()).includes(ctx.params.id)
+			(v: any) => v.articles.map(aId => aId.toString()).includes(ctx.params.id)
 		)
 		ctx.body = categories;
 	}
