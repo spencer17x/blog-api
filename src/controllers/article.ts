@@ -69,7 +69,7 @@ class ArticleCtrl {
 		const allCategories = await CategoryModel.find();
 		const categories: any = allCategories
 		.filter(
-			(v: any) => v.articles.map((articleId: any) => articleId.toString()).includes(ctx.params.id)
+			(category: any) => category.articles.map((articleId: any) => articleId.toString()).includes(ctx.params.id)
 		)
 		ctx.body = categories;
 	}
