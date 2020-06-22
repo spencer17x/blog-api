@@ -8,9 +8,19 @@
     "declarationDir": "./dist/@types",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "noImplicitAny": false
+    "noImplicitAny": true,
+    "baseUrl": ".",
+    "paths": {
+      "koa-parameter": [
+        "./typings/koa-parameter"
+      ]
+    }
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "src/**/*",
+    "./typings"
   ]
 }

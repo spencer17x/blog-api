@@ -75,7 +75,7 @@ class CategoryCtrl {
 	async delArticleFromCategory(ctx: Context) {
 		const { categoryId, articleId } = ctx.params;
 		const category: any = await CategoryModel.findById(categoryId);
-		const index = category.articles.findIndex(id => id.toString() === articleId);
+		const index = category.articles.findIndex((articleId: any) => articleId.toString() === articleId);
 		if (index > -1) {
 			category.articles.splice(index, 1);
 			category.save();
