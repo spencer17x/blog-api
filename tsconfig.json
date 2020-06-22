@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "sourceMap": true,
     "outDir": "./dist",
     "declaration": true,
     "declarationDir": "./dist/@types",
@@ -14,7 +13,11 @@
       "koa-parameter": [
         "./typings/koa-parameter"
       ]
-    }
+    },
+    "lib": [
+      "ES2015",
+      "ES2018"
+    ]
   },
   "exclude": [
     "node_modules"
