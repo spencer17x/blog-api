@@ -8,7 +8,7 @@ class ArticleCtrl {
 	 * @returns {Promise<void>}
 	 */
 	async findAllArticles(ctx: Context) {
-		const articles = await ArticleModel.find();
+		const articles = await ArticleModel.find().populate('author', '-articles -account');
 		ctx.body = articles;
 	}
 
@@ -24,7 +24,10 @@ class ArticleCtrl {
 			description: { type: 'string', required: false },
 			content: { type: 'string', required: false }
 		});
-		const article = await new ArticleModel(ctx.request.body).save();
+		const article = await new ArticleModel({
+      ...ctx.request.body,
+      author: ctx.state.user._id
+    }).save();
 		const me: any = await UserModel.findById(ctx.state.user._id);
 		me.articles.push(article._id);
 		me.save();
@@ -37,7 +40,7 @@ class ArticleCtrl {
 	 * @returns {Promise<void>}
 	 */
 	async findArticleById(ctx: Context) {
-		const article = await ArticleModel.findById(ctx.params.id);
+		const article = await ArticleModel.findById(ctx.params.id).populate('author', '-articles -account');
 		ctx.body = article;
 	}
 
