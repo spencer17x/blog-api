@@ -9,9 +9,8 @@ const articleRouter = new Router({
 articleRouter
   .get('/', ArticleCtrl.findAllArticles.bind(this))
   .get('/:id', ArticleCtrl.findArticleById.bind(this))
-  .get('/:id/category', ArticleCtrl.findCategoryOfArticle.bind(this))
-  .patch('/:id', auth, ArticleCtrl.updateArticle.bind(this))
-  .delete('/:id', auth, ArticleCtrl.delArticle.bind(this))
+  .patch('/:id', auth, ArticleCtrl.checkIsMe.bind(this), ArticleCtrl.updateArticle.bind(this))
+  .delete('/:id', auth, ArticleCtrl.checkIsMe.bind(this), ArticleCtrl.delArticle.bind(this))
   .post('/', auth, ArticleCtrl.createArticle.bind(this));
 
 export default articleRouter;

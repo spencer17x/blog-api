@@ -1,4 +1,4 @@
-import { Context } from 'koa';
+import { Context, Next } from 'koa';
 import { ArticleModel, CategoryModel, UserModel } from '../models';
 
 class ArticleCtrl {
@@ -64,18 +64,17 @@ class ArticleCtrl {
 		ctx.body = article;
 	}
 
-	/**
-	 * 获取文章的类目
-	 * @param {Application.Context} ctx
-	 */
-	async findCategoryOfArticle(ctx: Context) {
-		const allCategories = await CategoryModel.find();
-		const categories: any = allCategories
-		.filter(
-			(category: any) => category.articles.map((articleId: any) => articleId.toString()).includes(ctx.params.id)
-		)
-		ctx.body = categories;
-	}
+  /**
+   * 权限校验
+   * @param ctx
+   */
+	async checkIsMe(ctx: Context, next: Next) {
+    const article: any = await ArticleModel.findById(ctx.params.id);
+    if (article.author.toString() !== ctx.state.user._id) {
+      ctx.throw(412, '没有权限')
+    }
+    await next();
+  }
 }
 
 export default new ArticleCtrl();
