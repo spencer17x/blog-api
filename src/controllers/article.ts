@@ -8,7 +8,7 @@ class ArticleCtrl {
 	 * @returns {Promise<void>}
 	 */
 	async findAllArticles(ctx: Context) {
-		const articles = await ArticleModel.find().populate('author', '-articles -account');
+		const articles = await ArticleModel.find().populate('author', '-articles -account -categories');
 		ctx.body = articles;
 	}
 

@@ -9,7 +9,7 @@ class UserCtrl {
 	 * @param ctx
 	 */
 	async findAllUsers(ctx: Context) {
-		const users = await UserModel.find().populate('articles').select('-password');
+		const users = await UserModel.find().populate('articles categories').select('-password');
 		ctx.body = users;
 	}
 
@@ -24,7 +24,7 @@ class UserCtrl {
 			'account', 'username', 'password',
 			'articles'
 		].join(' ');
-		const user = await UserModel.findById(id).select(selectStr).populate('articles');
+		const user = await UserModel.findById(id).select(selectStr).populate('articles categories');
 		ctx.body = user;
 	}
 

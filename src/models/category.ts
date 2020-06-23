@@ -1,14 +1,9 @@
 import { Schema, model } from 'mongoose';
 
-interface Category {
-  name: string;
-  articles: string[];
-}
-
-const categorySchema = new Schema<Category>({
-	__v: { type: String, select: false },
-	name: { type: String, required: true },
-	articles: { type: [{ type: Schema.Types.ObjectId, ref: 'article' }], required: false }
+const categorySchema = new Schema({
+  __v: { type: String, select: false },
+  name: { type: String, required: true },
+  author: { type: Schema.Types.ObjectId, ref: 'user' }
 });
 
 export default model('category', categorySchema, 'category');
