@@ -11,6 +11,8 @@ categoryRouter
   .get('/:id', CategoryCtrl.findCategoryById.bind(this))
   .patch('/:id', auth, CategoryCtrl.checkIsMe.bind(this), CategoryCtrl.updateCategory.bind(this))
   .delete('/:id', auth, CategoryCtrl.checkIsMe.bind(this), CategoryCtrl.delCategory.bind(this))
-  .post('/', auth, CategoryCtrl.createCategory.bind(this));
+  .post('/', auth, CategoryCtrl.createCategory.bind(this))
+  .post('/:categoryId/article/:articleId', auth, CategoryCtrl.addArticleToCategory.bind(this))
+  .delete('/:categoryId/article/:articleId', auth, CategoryCtrl.delArticleFromCategory.bind(this))
 
 export default categoryRouter;

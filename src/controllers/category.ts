@@ -7,7 +7,7 @@ class CategoryCtrl {
 	 * @param {Application.Context} ctx
 	 */
 	async findAllCategories(ctx: Context) {
-		const categories = await CategoryModel.find();
+		const categories = await CategoryModel.find().populate('articles');
 		ctx.body = categories;
 	}
 
@@ -17,7 +17,7 @@ class CategoryCtrl {
 	 * @returns {Promise<void>}
 	 */
 	async findCategoryById(ctx: Context) {
-		const category = await CategoryModel.findById(ctx.params.id);
+		const category = await CategoryModel.findById(ctx.params.id).populate('articles');
 		ctx.body = category;
 	}
 
@@ -67,6 +67,32 @@ class CategoryCtrl {
       ctx.throw(412, '没有操作权限');
     }
     await next()
+  }
+
+  /**
+   * 将文章添加到类目中
+   * @param ctx
+   */
+  async addArticleToCategory(ctx: Context) {
+    const category: any = await CategoryModel.findById(ctx.params.categoryId);
+    category.articles.push(ctx.params.articleId);
+    category.save();
+    ctx.body = category;
+  }
+
+  /**
+   * 将文章从类目中移除
+   * @param ctx
+   */
+  async delArticleFromCategory(ctx: Context) {
+    const category: any = await CategoryModel.findById(ctx.params.categoryId);
+    const index = category.articles.findIndex((articleId: any) => articleId.toString() === ctx.params.articleId)
+    if (index === -1) {
+      ctx.throw(412, '该类目下无该文章');
+    }
+    category.articles.splice(index, 1);
+    category.save();
+    ctx.body = category;
   }
 }
 
