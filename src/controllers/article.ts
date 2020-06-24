@@ -75,6 +75,16 @@ class ArticleCtrl {
     }
     await next();
   }
+
+  /**
+   * 获取文章下的所有类目
+   * @param ctx
+   */
+  async findCategoryByArticle(ctx: Context) {
+    const categories = await CategoryModel.find();
+    const result = categories.filter((category: any) => category.articles.map((articleId: any) => articleId.toString()).includes(ctx.params.id));
+    ctx.body = result;
+  }
 }
 
 export default new ArticleCtrl();

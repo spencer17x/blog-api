@@ -75,6 +75,9 @@ class CategoryCtrl {
    */
   async addArticleToCategory(ctx: Context) {
     const category: any = await CategoryModel.findById(ctx.params.categoryId);
+    if (category.articles.map((v: any) => v.toString()).includes(ctx.params.articleId)) {
+      ctx.throw(412, '请勿重复添加')
+    }
     category.articles.push(ctx.params.articleId);
     category.save();
     ctx.body = category;
