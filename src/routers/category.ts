@@ -12,7 +12,7 @@ categoryRouter
   .patch('/:id', auth, CategoryCtrl.checkIsMe.bind(this), CategoryCtrl.updateCategory.bind(this))
   .delete('/:id', auth, CategoryCtrl.checkIsMe.bind(this), CategoryCtrl.delCategory.bind(this))
   .post('/', auth, CategoryCtrl.createCategory.bind(this))
-  .post('/:categoryId/article/:articleId', auth, CategoryCtrl.addArticleToCategory.bind(this))
-  .delete('/:categoryId/article/:articleId', auth, CategoryCtrl.delArticleFromCategory.bind(this))
+  .post('/:categoryId/article/:articleId', auth, CategoryCtrl.checkOwner.bind(this), CategoryCtrl.addArticleToCategory.bind(this))
+  .delete('/:categoryId/article/:articleId', auth, CategoryCtrl.checkOwner.bind(this), CategoryCtrl.delArticleFromCategory.bind(this));
 
 export default categoryRouter;

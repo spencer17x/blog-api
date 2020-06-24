@@ -1,5 +1,5 @@
 import { Context, Next } from 'koa';
-import { CategoryModel, UserModel } from '../models';
+import { ArticleModel, CategoryModel, UserModel } from '../models';
 
 class CategoryCtrl {
 	/**
@@ -96,6 +96,18 @@ class CategoryCtrl {
     category.articles.splice(index, 1);
     category.save();
     ctx.body = category;
+  }
+
+  /**
+   * 校验权限
+   * @param ctx
+   */
+  async checkOwner(ctx: Context, next: Next) {
+    const article: any = await ArticleModel.findById(ctx.params.articleId);
+    if (article.author.toString() !== ctx.state.user._id) {
+      ctx.throw(412, '没有权限')
+    }
+    await next();
   }
 }
 
